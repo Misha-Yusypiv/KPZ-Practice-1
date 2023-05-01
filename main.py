@@ -1,35 +1,37 @@
-import re
-import platform
+import pytest
+from pythonProject1.prime_num_generator import prime_num_generator
+from pythonProject1.validator_ip import validate_ip
+from pythonProject1.palindrom import palindrom
 
-def palindrom(*args):
-    result = []
-    for word in args:
-        if word == word[::-1]:
-            result.append(word)
-    return result
+def test_prime_num_generator():
+    print(prime_num_generator(12))
+    assert prime_num_generator(12) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37]
+    print(prime_num_generator(101)[-1])
+    assert prime_num_generator(101)[-1] == 547
 
-def validate_ip(ip_address):
-    pattern = r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$'
-    if re.match(pattern, ip_address):
-        return True
-    else:
-        return False
+def test_palindrom():
+    print(palindrom("hello"))
+    assert palindrom("hello") == False
+    print(palindrom(""))
+    assert palindrom("") == False
+    print(palindrom("Око"))
+    assert palindrom("Око") == True
+    print(palindrom("Дід"))
+    assert palindrom("Дід") == True
 
-def get_os():
-    os_name = platform.system()
-    if os_name == 'Darwin':
-        return 'Mac'
-    elif os_name == 'Windows':
-        return 'Windows'
-    elif os_name == 'Linux':
-        return 'Linux'
+def test_validate_ip():
+    print(validate_ip("192.168.0.1"))
+    assert validate_ip("192.168.0.1") == True
+    print(validate_ip(""))
+    assert validate_ip("") == False
+    print(validate_ip("192.168.0.1."))
+    assert validate_ip("192.168.0.1.") == False
+    print(validate_ip("192.168.0"))
+    assert validate_ip("192.168.0") == False
 
-print(palindrom("Око", "Дід"))
-ip_address = "192.168.0.1"
+def test_get_os():
+    print(get_os())
+    assert get_os() in ["Windows", "Linux", "MacOS"]
 
-print(validate_ip(ip_address))
-print(get_os())
-
-
-
-
+if __name__ == "__main__":
+    pytest.main()

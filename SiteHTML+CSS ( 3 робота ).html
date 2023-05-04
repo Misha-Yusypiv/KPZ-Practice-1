@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Todo list</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <div class="container">
+    
+    <header>Task list</header>
+    <main>
+          <section>
+              <ul class="task-list">
+                  <li>
+                      <span class="task-title">Create page</span>
+                      <span class="task-butten done">
+                          <img src="done.svg" alt="done icon">
+                      </span>
+                      <span class="task-butten close">
+                          <img src="close.svg" alt="close icon">
+                      </span>
+                  </li>
+
+ <li>
+     <span class="task-title">Implenment javascript logic</span>
+     <span class="task-butten done">
+         <img src="done.svg" alt="done icon">
+     </span>
+     <span class="task-butten close"> 
+         <img src="close.svg" alt="close icon">
+     </span>
+ </li>
+
+  <li>
+      <span class="task-title">Sep up connection to the DB</span>
+      <span class="task-butten done">
+          <img src="done.svg" alt="done icon">
+      </span>
+      <span class="task-butten close">
+          <img src="close.svg" alt="close icon">
+      </span>
+ </li>
+ 
+  <li>
+      <span class="task-title">Create page</span>
+      <span class="task-butten done">
+          <img src="done.svg" alt="done icon">
+      </span>
+      <span class="task-butten close">
+            <img src="close.svg" alt="close icon">
+      </span>
+  </li>
+
+  <li>
+       <span class="task-title">Implement iavascript logic</span>
+       <span class="task-butten done">
+           <img src="done.svg" alt="done icon">
+       </span>
+       <span class="task-butten close">
+           <img src="close.svg" alt="close icon">
+        </span>
+  </li>
+  
+  <li>
+      <span class="task-title">Set up connection to the DB</span>
+      <span class="task-butten done">
+          <img src="done.svg" alt="done icon">
+      </span>
+      <span class="task-butten close">
+          <img src="close.svg" alt="close icon">
+      </span>
+ </li>
+
+</li>
+
+</section>
+
+<form action="" method="post">
+    <div class="field">
+        <label for="title">Title</label>
+        <input class="input-field" type="text" id="title" name="title" placeholder="Type title...">
+    </div>
+
+    <div class="field">
+        <label for="desc">Description</label>
+        <textarea class="desc-field" name="desc" id="desc" cols="44" rows="16" placeholder="Type description..."></textarea>
+    </div>
+    <div class="btn-ctn">
+        <input class="btn-add"  type="submit" value="Add">
+    </div>
+</form>
+    </main>
+    <footer>
+
+    </footer>
+    </div>
+    
+</body>>
+</html>
+
+    <script>
+        const form = document.querySelector ( 'form' );
+        const inputField = document.querySelector ( '.input-field' );
+        const descField = document.querySelector ( '.desc-field' );
+        const btn = document.querySelector ( '.btn-add' );
+        const taskList = document.querySelector ( '.task-list' );
+
+        const items = [
+            { id: 1, title: 'Create page', desc: 'description', done: false },
+            { id: 2, title: 'Implement javascript logic', desc: 'description', done: false},
+            { id: 3, title: 'Set up connection to the DB', desc: 'description', done: false}
+        ];
+    
+        let inputRes = '';
+        let descRes = '';
+
+        form.addEventListener ( 'submit', event => {
+            event.preventDefault ();
+        });
+        inputField.addEventListener ( 'input', event => {
+            inputRes = event.target.value;
+        });
+        descField.addEventListener( 'input', event => {
+            descRes = event.target.value;
+        });
+
+        btn.addEventListener( 'click', () => {
+            addItem(inputField.value);
+
+            inputField.value = '';
+            descField.value = '';
+            inputRes = '';
+            descRes = ''; 
+        });
+
+        function createItem( id, text, isDone ) {
+            const newEl = document.createElement ( 'li' );
+            newEl.setAttribute ( 'item-id', id );
+            if ( isDone ) {
+                newEl.classList.add ( 'done' );    
+            }
+            newEl.innerHTML = `
+            <span class="task-title"></span>
+            <span class="task-butten done">
+                <img src="done.svg" alt ="done icon">
+            </span>
+            <span class="task-butten close">
+                <img src="close.svg" alt ="close icon">
+                </span>
+                `;
+
+            const title = newEl.querySelector ( '.task-title');
+            const done = newEl.querySelector ( '.task-butten.done');
+            const close = newEl.querySelector ( '.task-butten.close');
+            title.innerText = text;
+            done.addEventListener ( 'click', (event) => {
+                const item = event.currentTarget;
+                item.parentElement.classList.add( 'done' );
+            });
+            close.addEventListener ( 'click', (event) => {
+                const parent = event.currentTarget.parentElement;
+                const id = Number ( parent.getAttribute ( 'item-id'));
+                items.splice(items.findIndex(item => item.id === id), 1);
+                parent.remove();
+            });
+
+            return newEl;
+
+        }
+
+        function functionRenderList() {
+            items.forEach (item => {
+                taskList.append(createItem(item.id, item.title, item.done));
+            });
+        }
+
+        function addItem(text) {
+            const id = items.length ? items [items.length - 1].id + 1 : 1;
+            items.unshift({ id, title, text, desc: 'description', done: false });
+            const item = createItem (id, text, false);
+            taskList.prepend(item);
+        }
+
+        function removeItem(item) {
+
+        }
+
+        functionRenderList();
+    
+    </script>
+    </body>
+</html>
